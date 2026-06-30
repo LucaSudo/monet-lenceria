@@ -1,0 +1,10 @@
+    .sidebar-transition {
+      transition: transform 0.3s ease-in-out;
+    }
+    .overlay-transition {
+      transition: opacity 0.3s ease-in-out;
+    }
+    .text-outline {
+      -webkit-text-stroke: 1px #e5b9b1;
+      color: transparent;
+    }
