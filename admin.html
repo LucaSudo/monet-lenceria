@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Panel · Monet Lencería</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: { brand: { pink: '#e5b9b1', pinkLight: '#f9f1f0', text: '#4a4a4a', accent: '#d4a39a' } },
+      fontFamily: { serif: ['"Playfair Display"', 'serif'], sans: ['Montserrat', 'sans-serif'] }
+    } }
+  }
+</script>
+</head>
+<body class="font-sans text-brand-text bg-brand-pinkLight min-h-screen">
+
+<!-- ===================== LOGIN ===================== -->
+<section id="login-view" class="min-h-screen flex items-center justify-center p-4">
+<form id="login-form" class="bg-white rounded-lg shadow-xl p-8 w-full max-w-sm space-y-5">
+<div class="text-center mb-2">
+<h1 class="font-serif text-3xl text-brand-pink uppercase tracking-widest">Monet</h1>
+<p class="text-[10px] uppercase tracking-[0.3em] text-gray-400 mt-1">Panel de administración</p>
+</div>
+<div>
+<label class="block text-[10px] uppercase tracking-widest text-gray-500 mb-1">Email</label>
+<input type="email" id="login-email" required autocomplete="username" class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:border-brand-pink focus:ring-brand-pink"/>
+</div>
+<div>
+<label class="block text-[10px] uppercase tracking-widest text-gray-500 mb-1">Contraseña</label>
+<input type="password" id="login-password" required autocomplete="current-password" class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:border-brand-pink focus:ring-brand-pink"/>
+</div>
+<p id="login-error" class="hidden text-xs text-red-500"></p>
+<button type="submit" id="login-submit" class="w-full bg-brand-pink text-white py-2.5 rounded text-xs uppercase tracking-widest font-bold hover:bg-brand-accent transition-colors disabled:opacity-50">Ingresar</button>
+</form>
+</section>
+
+<!-- ===================== PANEL ===================== -->
+<div id="panel-view" class="hidden">
+<header class="bg-white border-b border-gray-100 flex justify-between items-center px-6 py-4">
+<div>
+<span class="font-serif text-xl text-brand-pink uppercase tracking-widest">Monet</span>
+<span class="text-[10px] uppercase tracking-[0.2em] text-gray-400 ml-2">Admin</span>
+</div>
+<div class="flex items-center gap-4">
+<span id="admin-email" class="text-xs text-gray-500 hidden sm:inline"></span>
+<a href="index.html" target="_blank" class="text-xs text-gray-500 hover:text-brand-pink">Ver tienda ↗</a>
+<button id="logout-btn" class="text-xs uppercase tracking-widest font-semibold text-gray-500 hover:text-red-400">Salir</button>
+</div>
+</header>
+<main class="max-w-5xl mx-auto p-4 md:p-6">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-serif text-2xl">Productos</h2>
+<button id="new-product-btn" class="bg-brand-pink text-white px-4 py-2 rounded text-xs uppercase tracking-widest font-bold hover:bg-brand-accent transition-colors">+ Nuevo</button>
+</div>
+<div id="product-list" class="bg-white rounded-lg shadow divide-y divide-gray-100"></div>
+<p id="list-empty" class="hidden text-center text-gray-400 text-sm py-12">Todavía no hay productos. Tocá “+ Nuevo” para cargar el primero.</p>
+</main>
+</div>
+
+<!-- ===================== FORM MODAL ===================== -->
+<div id="form-modal" class="hidden fixed inset-0 z-50 bg-black/50 flex items-start justify-center p-4 overflow-y-auto">
+<form id="product-form" class="bg-white rounded-lg shadow-xl w-full max-w-lg my-8 p-6 space-y-4">
+<div class="flex justify-between items-center">
+<h3 id="form-title" class="font-serif text-lg">Nuevo producto</h3>
+<button type="button" id="form-close" class="p-1 text-gray-400 hover:text-black" aria-label="Cerrar">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+<input type="hidden" id="form-id"/>
+<div>
+<label class="block text-[10px] uppercase tracking-widest text-gray-500 mb-1">Nombre</label>
+<input type="text" id="form-nombre" required class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:border-brand-pink focus:ring-brand-pink"/>
+</div>
+<div>
+<label class="block text-[10px] uppercase tracking-widest text-gray-500 mb-1">Precio</label>
+<input type="number" id="form-precio" min="0" step="1" required class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:border-brand-pink focus:ring-brand-pink"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-[10px] uppercase tracking-widest text-gray-500 mb-1">Categoría</label>
+<select id="form-categoria" class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:border-brand-pink focus:ring-brand-pink"></select>
+</div>
+<div>
+<label class="block text-[10px] uppercase tracking-widest text-gray-500 mb-1">Subcategoría</label>
+<select id="form-subcategoria" class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:border-brand-pink focus:ring-brand-pink"></select>
+</div>
+</div>
+<div>
+<label class="block text-[10px] uppercase tracking-widest text-gray-500 mb-1">Colores</label>
+<div class="flex items-center gap-2">
+<input type="color" id="form-color-input" value="#e5b9b1" class="w-10 h-10 rounded border border-gray-200 cursor-pointer"/>
+<button type="button" id="form-color-add" class="text-xs uppercase tracking-widest font-semibold text-brand-pink hover:text-brand-accent border border-brand-pink rounded px-3 py-2">Agregar color</button>
+</div>
+<div id="form-colors" class="flex flex-wrap gap-2 mt-3"></div>
+</div>
+<div>
+<label class="block text-[10px] uppercase tracking-widest text-gray-500 mb-1">Imagen</label>
+<input type="file" id="form-img" accept="image/*" class="text-xs"/>
+<img id="form-img-preview" alt="" class="hidden mt-2 w-24 h-32 object-cover rounded border border-gray-100"/>
+</div>
+<label class="flex items-center gap-2 text-sm">
+<input type="checkbox" id="form-activo" checked class="rounded text-brand-pink focus:ring-brand-pink"/>
+<span>Activo (visible en la tienda)</span>
+</label>
+<p id="form-error" class="hidden text-xs text-red-500"></p>
+<div class="flex gap-3 pt-2">
+<button type="submit" id="form-submit" class="flex-1 bg-brand-pink text-white py-2.5 rounded text-xs uppercase tracking-widest font-bold hover:bg-brand-accent transition-colors disabled:opacity-50">Guardar</button>
+<button type="button" id="form-cancel" class="px-5 py-2.5 rounded text-xs uppercase tracking-widest font-bold text-gray-500 border border-gray-200 hover:bg-gray-50">Cancelar</button>
+</div>
+</form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="admin.js"></script>
+</body></html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Monet Lencería · Siéntete Única</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Playfair Display (Serif) and Montserrat (Sans) -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              pink: '#e5b9b1',
+              pinkLight: '#f9f1f0',
+              text: '#4a4a4a',
+              accent: '#d4a39a'
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['Montserrat', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<link href="style.css" rel="stylesheet"/>
+</head>
+<body class="font-sans text-brand-text bg-white overflow-x-hidden">
+<!-- BEGIN: Announcement Bar -->
+<div class="bg-brand-pink text-white text-[10px] uppercase tracking-widest py-2 text-center font-medium">
+    ENVÍOS A TODO EL PAÍS ❤️ 3 CUOTAS SIN INTERÉS
+  </div>
+<!-- END: Announcement Bar -->
+<!-- BEGIN: Main Header -->
+<header class="relative bg-white border-b border-gray-100 py-4 px-6 md:px-12 flex items-center justify-between z-40">
+<!-- Left: Menu Trigger -->
+<button aria-label="Abrir menú" aria-controls="sidebar-menu" aria-expanded="false" class="p-2" id="menu-open">
+<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+</button>
+<!-- Center: Logo -->
+<a href="#" class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-center" data-purpose="site-logo">
+<span class="font-serif text-2xl md:text-3xl tracking-widest text-brand-pink uppercase">Monet</span>
+<span class="block text-[8px] md:text-[9px] uppercase tracking-[0.3em] text-brand-text">Lencería</span>
+</a>
+<!-- Right: Search and Cart -->
+<div class="flex items-center space-x-4">
+<button aria-label="Buscar" class="p-2" id="search-open">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+</button>
+<button aria-label="Carrito" class="p-2 relative" id="cart-open">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+<span class="absolute top-1 right-0 bg-brand-pink text-white text-[9px] rounded-full w-4 h-4 flex items-center justify-center hidden" id="cart-count">0</span>
+</button>
+</div>
+</header>
+<!-- Search Bar (oculta por defecto) -->
+<div class="hidden bg-white border-b border-gray-100 px-6 md:px-12 py-3 z-40 relative" id="search-bar">
+<div class="container mx-auto flex items-center gap-3">
+<svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+<input type="search" id="search-input" placeholder="Buscar productos…" class="flex-1 bg-transparent outline-none text-sm placeholder-gray-400 py-1" autocomplete="off"/>
+<button id="search-close" aria-label="Cerrar búsqueda" class="p-1 text-gray-400 hover:text-black">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<!-- END: Main Header -->
+<!-- BEGIN: Sidebar Navigation -->
+<div class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none z-50 overlay-transition" id="sidebar-overlay"></div>
+<aside aria-hidden="true" aria-label="Menú de navegación" inert="" role="dialog" class="fixed top-0 right-0 h-full w-80 bg-white z-[60] transform translate-x-full sidebar-transition shadow-2xl flex flex-col" id="sidebar-menu">
+<div class="p-6 flex justify-end">
+<button class="p-2 text-gray-400 hover:text-black" id="menu-close">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+<div class="px-8 pb-8 flex flex-col items-center">
+<img alt="Logo Mini" class="h-24 w-24 object-contain mb-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzlfJY-H3-D5T4KdEzfYuJqj9eAh6sCEX8yqukHOc0i8Ktwh5yR6JmmGzVhPzJuMm_QxfLd7FdmsNLAaI1-WI8fbgHJNSKkBnTYQz2UCyE33h7o--hmiMTQL_cVaW1E0bSaJ4CpB1zezEC7iy2al0wyfRZTEyyset0m52qdmZ4Zp6lxN1uq5bOdDThygI4rc1oY5e7SEMO957oPiwk2Nj-uTV7ODWTiFo3uWema20jD_ATJDwoa6CG1EFZV6D5ohUQE_w"/>
+<nav class="w-full space-y-4 uppercase text-xs tracking-widest font-medium">
+<a class="flex items-center space-x-3 text-brand-pink border-l-2 border-brand-pink pl-3" href="#">
+<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
+<span>Inicio</span>
+</a>
+<a class="flex items-center space-x-3 pl-3 hover:text-brand-pink transition-colors" href="#ropa-interior">
+<span>Ropa Interior</span>
+</a>
+<a class="flex items-center space-x-3 pl-3 hover:text-brand-pink transition-colors" href="#">
+<span>Bodys</span>
+</a>
+<a class="flex items-center space-x-3 pl-3 hover:text-brand-pink transition-colors" href="#">
+<span>Pijamas</span>
+</a>
+<a class="flex items-center space-x-3 pl-3 hover:text-brand-pink transition-colors" href="#">
+<span>Pantuflas</span>
+</a>
+<a class="flex items-center space-x-3 pl-3 hover:text-brand-pink transition-colors" href="#">
+<span>Ropa deportiva</span>
+</a>
+<a class="flex items-center space-x-3 pl-3 text-red-400" href="#">
+<span>Ofertas</span>
+</a>
+<div class="h-px bg-gray-100 my-4 w-full"></div>
+<a class="flex items-center space-x-3 pl-3 hover:text-brand-pink transition-colors" href="#">
+<span>Sobre Nosotras</span>
+</a>
+<a class="flex items-center space-x-3 pl-3 hover:text-brand-pink transition-colors" href="#">
+<span>Guía de Talles</span>
+</a>
+<a class="flex items-center space-x-3 pl-3 hover:text-brand-pink transition-colors" href="#">
+<span>Contacto</span>
+</a>
+</nav>
+</div>
+</aside>
+<!-- END: Sidebar Navigation -->
+<!-- BEGIN: Cart Drawer -->
+<div class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none z-50 overlay-transition" id="cart-overlay"></div>
+<aside aria-hidden="true" aria-label="Carrito de compras" inert="" role="dialog" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white z-[60] transform translate-x-full sidebar-transition shadow-2xl flex flex-col" id="cart-drawer">
+<div class="p-6 flex justify-between items-center border-b border-gray-100">
+<h2 class="font-serif text-lg tracking-widest uppercase">Tu Carrito</h2>
+<button class="p-2 text-gray-400 hover:text-black" id="cart-close" aria-label="Cerrar carrito">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto px-6" id="cart-items"></div>
+<div class="px-6 py-10 text-center text-gray-400 text-sm" id="cart-empty">
+<svg class="w-12 h-12 mx-auto mb-4 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path></svg>
+        Tu carrito está vacío.
+      </div>
+<div class="border-t border-gray-100 p-6 space-y-4">
+<div class="flex justify-between items-center text-sm">
+<span class="uppercase tracking-widest text-xs text-gray-500">Subtotal</span>
+<span class="font-bold text-lg" id="cart-subtotal">$0</span>
+</div>
+<button class="w-full bg-brand-pink text-white py-3 rounded-md text-xs tracking-widest font-bold hover:bg-brand-accent transition-colors" id="cart-checkout">FINALIZAR COMPRA</button>
+</div>
+</aside>
+<!-- END: Cart Drawer -->
+<main>
+<div id="home-view">
+<!-- BEGIN: Hero Section -->
+<section class="relative h-[600px] flex items-center overflow-hidden bg-brand-pinkLight">
+<!-- Hero Image Placeholder -->
+<div class="absolute inset-0 z-0">
+<img alt="New Collection" class="w-full h-full object-cover object-center opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmUUehIT8dtGGK4_raLRQNemtTILHdfHmm5TSE1dTP3JklmT6sd1ifOS4hyrlCZOU6Lu6v4EsfVw_BrZQMtRCdivV7aN_0VKIkTs-KL4j5CqKCKRvSzhHHDAdqN6WUqpxHn99_rdBAc90RX0hNm6Y3IAcH4IRB7v4iXsJ0g0zCwx7WRYFWT_eKTbqMdMsL-5qGWPyn45QFlViagwRRmN3X0TPMis6K4dGRGbAUmMGRUnTV0UsbxslaOA"/>
+</div>
+<div class="relative z-10 container mx-auto px-6 md:px-24">
+<div class="max-w-xl">
+<p class="uppercase tracking-widest text-xs font-semibold mb-2 flex items-center">
+            Nueva Colección <span class="ml-2 text-brand-pink text-sm">❤️</span>
+</p>
+<h1 class="font-serif text-5xl md:text-7xl leading-tight mb-4">
+            SIÉNTETE ÚNICA,<br/>
+<span class="italic font-normal">siéntete tú.</span> <span class="text-3xl">♡</span>
+</h1>
+<p class="text-sm md:text-base mb-8 max-w-sm font-light leading-relaxed">
+            Lencería que realza tu belleza, diseñada para que te sientas increíble todos los días.
+          </p>
+<a class="inline-block bg-brand-pink text-white px-8 py-3 rounded-md text-xs tracking-widest font-bold hover:bg-brand-accent transition-colors shadow-lg" href="#coleccion">
+            VER COLECCIÓN
+          </a>
+</div>
+</div>
+</section>
+<!-- END: Hero Section -->
+<!-- BEGIN: Categories Grid -->
+<section class="py-16 bg-white overflow-x-auto">
+<div class="container mx-auto px-4 flex justify-between items-start min-w-[600px] md:min-w-0 md:flex-wrap md:justify-center md:gap-12">
+<!-- Category Item -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-full border border-brand-pink p-3 flex items-center justify-center bg-brand-pinkLight group-hover:scale-105 transition-transform">
+<img alt="Conjuntos" class="w-12 h-12 opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgwcSvZapsI7b9YJ1eph8a-oWBluQhBwy8JA5dyJWj41bP_80ASkFjJ3mDCPWSpdNRQ3mzZ9Z-9Yjh-nm1k8I1mug5KX3Jk0t_SPI5uoZaguvBLqUvHSimUcAfBEIPRACGtdor-v_NHeyVf3sU1OdJurN7rSf7KJgTfWEpg5MMEwBBtYbNZ3ZYx4Bi6M4DQ0ETTPlUlo_JiY45PwYzfbcZLNRgZGS5h3qIZrk9wlNrIW9xIzA6YeR3RQ"/>
+</div>
+<span class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest text-center">Conjuntos</span>
+</div>
+<!-- Category Item -->
+<a href="#ropa-interior" class="flex flex-col items-center group cursor-pointer">
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-full border border-brand-pink p-3 flex items-center justify-center bg-brand-pinkLight group-hover:scale-105 transition-transform">
+<img alt="Ropa Interior" class="w-12 h-12 opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtgZ6VU-q6js6uzaV3Owt66DMk2Uc--_19AHxHm0vKbmbODEp9APME9LRWqrLnPXzCJHWnoOxzSFFA3vSVbMuDPqaLy52ioZIYGU9yI8bu71bhMkM6N2E54wkrdJpVIZB4Kczhd6MmQ5HiI6bazJkfjQ9As2Bta6RCyLMh2dZ9gy_xL5VlbxjvvhIFSmdw1nABAzopO20PMxjDksRv07axy7zPa3JPhFdjwS8F-YFz9db0TVZMC8fHCw"/>
+</div>
+<span class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest text-center leading-tight max-w-[80px]">Ropa Interior</span>
+</a>
+<!-- Category Item -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-full border border-brand-pink p-3 flex items-center justify-center bg-brand-pinkLight group-hover:scale-105 transition-transform">
+<img alt="Bombachas" class="w-12 h-12 opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNbSYiiFZyz-EseZhvUub3i9v0XaMxioUdxI_ZPAex3fBnUTClAuZkZJN9I8J3Uz8f2v1DjsDwzELQqLgYr4pPI2pmiXEGN43X-QYuDPxIpCmDPT2QcymN8N8m4ySXqddvn7G49BO7aSq6ANlMUwJINeE5AkKfF1IP8CldHXNMKVDvlohZlATP4_WNEnm0oVG-7Am29FJk5ZdM6lifaDGHKNALCbj9iF_W_r4od8XqBnqgtEFVz0brTg"/>
+</div>
+<span class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest text-center">Body</span>
+</div>
+<!-- Category Item -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-full border border-brand-pink p-3 flex items-center justify-center bg-brand-pinkLight group-hover:scale-105 transition-transform">
+<img alt="Bodys" class="w-12 h-12 opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHla0QW9fGT77SurFHoVT-h8mW-kQAHQCq0EA6bciEXgiuoE5seRaYwRkwhOmBAtdQbq6NU2TcoYV6TtnHsBof9VI5BF2wc1DTw2mCh7KT4sm1HVOWDhWhobyrsIcO39oX4DrXd07xxF7oMunen7Q45HnIUc67Cqpa4am_628eDFqVJ4AN-tQOadlQUsZIfTHxls3S4BwVVtsv7j86ac5nnNByZteoRz5muCJwtGBoYdUYUnMaAXt3xg"/>
+</div>
+<span class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest text-center">Pantuflas</span>
+</div>
+<!-- Category Item -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-full border border-brand-pink p-3 flex items-center justify-center bg-brand-pinkLight group-hover:scale-105 transition-transform">
+<img alt="Pijamas" class="w-12 h-12 opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtbz7FXkwaPLEm2D4bY2KnWNFbu7GztW3cDfeWcgreh-eekhuaD-3IYgRdMuS5fM4EdHK8PiCOV0w8I91Z0P8CJmbAQl87ZfHWqwQClyKgq0zmhnm5gwCd8cag0AI2K8bwsEMzJXhm7HvpV8G7vS5CKq5mtNzVgIjQkzcDtxIKTpmU8esJDNoe929XeDqMV5jiIZuuQJi8IgWuBMUIIbzqRWVoeHTjprxm53S1toMCcdTWCjHvdZEo4w"/>
+</div>
+<span class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest text-center">Pijamas</span>
+</div>
+<!-- Category Item (Ofertas) -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-full border border-brand-pink p-3 flex items-center justify-center bg-brand-pinkLight group-hover:scale-105 transition-transform">
+<span class="text-3xl font-serif text-brand-pink">%</span>
+</div>
+<span class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest text-center">Ofertas</span>
+</div>
+</div>
+</section>
+<!-- END: Categories Grid -->
+<!-- BEGIN: Best Sellers -->
+<section class="py-16 bg-[#fafafa]" id="best-sellers">
+<div class="container mx-auto px-6">
+<div class="flex items-center justify-center space-x-4 mb-12">
+<div class="h-px bg-gray-200 flex-grow max-w-[100px]"></div>
+<div class="text-center">
+<h2 class="font-serif text-3xl tracking-widest uppercase">Los Más Elegidos</h2>
+<div class="text-brand-pink mt-1">❤️</div>
+</div>
+<div class="h-px bg-gray-200 flex-grow max-w-[100px]"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="home-products"></div>
+</div>
+</section>
+<!-- END: Best Sellers -->
+<!-- BEGIN: Benefits Banner -->
+<section class="py-10 border-y border-gray-100 bg-white">
+<div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+<div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left space-y-2 md:space-y-0 md:space-x-4">
+<svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path></svg>
+<div>
+<h4 class="text-[10px] font-bold uppercase tracking-widest">Envíos a</h4>
+<p class="text-[10px] text-gray-500 uppercase tracking-tight">Todo el país</p>
+</div>
+</div>
+<div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left space-y-2 md:space-y-0 md:space-x-4">
+<svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path></svg>
+<div>
+<h4 class="text-[10px] font-bold uppercase tracking-widest">Compra 100%</h4>
+<p class="text-[10px] text-gray-500 uppercase tracking-tight">Segura</p>
+</div>
+</div>
+<div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left space-y-2 md:space-y-0 md:space-x-4">
+<svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path></svg>
+<div>
+<h4 class="text-[10px] font-bold uppercase tracking-widest">3 Cuotas</h4>
+<p class="text-[10px] text-gray-500 uppercase tracking-tight">Sin Interés</p>
+</div>
+</div>
+<div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left space-y-2 md:space-y-0 md:space-x-4">
+<svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path></svg>
+<div>
+<h4 class="text-[10px] font-bold uppercase tracking-widest">Atención</h4>
+<p class="text-[10px] text-gray-500 uppercase tracking-tight">Personalizada</p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Benefits Banner -->
+</div>
+<!-- END: Home View -->
+<!-- BEGIN: Catalog View -->
+<section id="catalog-view" class="hidden min-h-[60vh]">
+<div class="container mx-auto px-6 pt-10">
+<button id="catalog-back" class="flex items-center gap-2 text-xs uppercase tracking-widest text-gray-500 hover:text-brand-pink transition-colors mb-8">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Volver al inicio</span>
+</button>
+<div class="flex items-center justify-center space-x-4 mb-8">
+<div class="h-px bg-gray-200 flex-grow max-w-[100px]"></div>
+<div class="text-center">
+<h2 id="catalog-title" class="font-serif text-3xl tracking-widest uppercase">Ropa Interior</h2>
+<div class="text-brand-pink mt-1">❤️</div>
+</div>
+<div class="h-px bg-gray-200 flex-grow max-w-[100px]"></div>
+</div>
+<!-- Subfilter bar -->
+<div id="catalog-filters" class="flex flex-wrap justify-center gap-3 mb-12"></div>
+</div>
+<div class="container mx-auto px-6 pb-20">
+<div id="catalog-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10"></div>
+<p id="catalog-empty" class="hidden text-center text-gray-400 text-sm py-20">Todavía no hay productos para mostrar.</p>
+</div>
+</section>
+<!-- END: Catalog View -->
+</main>
+<!-- BEGIN: Footer -->
+<footer class="bg-white py-12 px-6">
+<div class="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
+<div class="text-center md:text-left">
+<h2 class="font-serif text-2xl tracking-widest text-brand-pink mb-1 uppercase">Monet Lencería</h2>
+<p class="text-[10px] uppercase tracking-widest text-gray-400 italic">Siéntete única, siéntete tú</p>
+</div>
+<div class="flex space-x-6 text-[10px] font-semibold uppercase tracking-widest">
+<a class="hover:text-brand-pink" href="#">Términos</a>
+<a class="hover:text-brand-pink" href="#">Privacidad</a>
+<a class="hover:text-brand-pink" href="#">Devoluciones</a>
+</div>
+<div class="flex space-x-4">
+<a class="w-10 h-10 border border-brand-pink flex items-center justify-center rounded-full text-brand-pink hover:bg-brand-pink hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+</a>
+<a class="w-10 h-10 border border-brand-pink flex items-center justify-center rounded-full text-brand-pink hover:bg-brand-pink hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.483 8.413-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.308 1.655zm6.236-3.365l.344.204c1.515.898 3.262 1.373 5.054 1.374 5.439 0 9.865-4.427 9.868-9.867.001-2.635-1.025-5.111-2.89-6.975s-4.339-2.892-6.971-2.893c-5.44 0-9.865 4.427-9.868 9.867 0 2.125.569 4.191 1.65 5.976l.225.369-.998 3.645 3.738-.981zm11.387-7.731c-.31-.156-1.834-.905-2.112-1.006-.279-.101-.482-.151-.684.151s-.785 1.007-.962 1.208-.354.227-.664.071c-.31-.155-1.307-.482-2.489-1.536-.919-.82-1.539-1.834-1.719-2.144s-.02-.477.136-.632c.14-.139.31-.362.465-.544s.206-.31.31-.517c.103-.207.052-.388-.026-.544s-.684-1.649-.938-2.259c-.247-.595-.499-.514-.684-.524-.176-.009-.38-.01-.582-.01s-.532.076-.81.381c-.278.305-1.062 1.039-1.062 2.535s1.088 2.943 1.24 3.146c.152.203 2.142 3.271 5.19 4.588.725.313 1.291.5 1.731.64.728.231 1.391.198 1.916.12.585-.088 1.834-.75 2.088-1.475s.253-1.344.177-1.475-.278-.221-.588-.376z"></path></svg>
+</a>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-gray-100 text-center text-[9px] uppercase tracking-widest text-gray-400">
+      © <span id="current-year">2024</span> Monet Lencería. Todos los derechos reservados.
+    </div>
+</footer>
+<!-- END: Footer -->
+<!-- BEGIN: Product Modal -->
+<div class="hidden fixed inset-0 z-[70] bg-black/50 flex items-center justify-center p-4 overlay-transition" id="product-modal">
+<div class="bg-white w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-lg shadow-2xl flex flex-col md:flex-row relative">
+<button class="absolute top-3 right-3 p-2 text-gray-400 hover:text-black z-10" id="modal-close" aria-label="Cerrar">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="md:w-1/2 bg-brand-pinkLight">
+<img id="modal-img" alt="" class="w-full h-64 md:h-full object-cover"/>
+</div>
+<div class="md:w-1/2 p-8 flex flex-col">
+<h3 class="font-serif text-2xl mb-2" id="modal-name">Producto</h3>
+<p class="text-2xl font-bold text-brand-text mb-6" id="modal-price">$0</p>
+<div class="mb-6 hidden" id="modal-colors-wrap">
+<p class="text-[10px] uppercase tracking-widest text-gray-500 mb-3">Color</p>
+<div class="flex flex-wrap gap-3" id="modal-colors"></div>
+</div>
+<div class="mb-8">
+<p class="text-[10px] uppercase tracking-widest text-gray-500 mb-3">Cantidad</p>
+<div class="inline-flex items-center border border-gray-200 rounded">
+<button class="w-10 h-10 text-gray-500 hover:text-black text-lg" id="modal-qty-minus" aria-label="Restar">−</button>
+<span class="w-10 text-center" id="modal-qty">1</span>
+<button class="w-10 h-10 text-gray-500 hover:text-black text-lg" id="modal-qty-plus" aria-label="Sumar">+</button>
+</div>
+</div>
+<button class="mt-auto w-full bg-brand-pink text-white py-3 rounded-md text-xs tracking-widest font-bold hover:bg-brand-accent transition-colors" id="modal-add">AGREGAR AL CARRITO</button>
+</div>
+</div>
+</div>
+<!-- END: Product Modal -->
+<!-- BEGIN: Logic Scripts -->
+<!-- Supabase JS client (debe cargar antes que app.js) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+<!-- END: Logic Scripts -->
+</body></html>
