@@ -2,8 +2,8 @@ name: Keep Supabase Alive
 
 on:
   schedule:
-    - cron: '0 12 */3 * *'  # cada 3 días a las 12:00 UTC
-  workflow_dispatch:         # te permite dispararlo a mano desde GitHub también
+    - cron: '0 12 */3 * *'
+  workflow_dispatch:
 
 jobs:
   ping:
@@ -11,5 +11,5 @@ jobs:
     steps:
       - name: Ping Supabase REST API
         run: |
-          curl -f "https://vkzlwwnymsxrkrbdbnbg.supabase.co/rest/v1/" \
+          curl -i "https://vkzlwwnymsxrkrbdbnbg.supabase.co/rest/v1/" \
             -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}"
